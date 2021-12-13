@@ -1,4 +1,5 @@
 use <fontmetrics.scad>;
+use <rounded-rect.scad>;
 
 // begin MIT licensed code (c) 2021 Jon Carlos
 
@@ -36,6 +37,8 @@ fontVAlign = "top";
 fontHAlign = "left";
 // END
 
+$fn=50;
+
 dimensions = measureTextBounds(text,font=font,size=fontSize, spacing=fontSpacing);
 echo(dimensions[1][1]);
 textWidth = dimensions[1][0];
@@ -55,9 +58,10 @@ module drawfont() {
 }
 
 difference(){
-    cube([height , (length + ringHoleDiameter + ringHolePosition), depth]);
+    //cube([height , (length + ringHoleDiameter + ringHolePosition), depth]);
+    roundedRect([height , (length + ringHoleDiameter + ringHolePosition), depth], 2);
     translate([height/2, ringHolePosition, -1]) 
-        cylinder(depth + 2, d=ringHoleDiameter, true, $fn=50);
+        cylinder(depth + 2, d=ringHoleDiameter, true);
     
     if(!emboss){
         translate([textPadding, 0, depth-textDepth]) {
